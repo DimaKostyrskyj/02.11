@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Леся — 🤍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════
+   RESET & ROOT
+══════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:       #faf8f5;
+  --bg2:      #f5f0ea;
+  --ink:      #2a2218;
+  --ink2:     #7a6a5a;
+  --ink3:     #b8a898;
+  --rose:     #d4849a;
+  --rose2:    #e8b4c0;
+  --rose3:    #f5e0e6;
+  --cream:    #f0e8d8;
+  --cream2:   #e0d0bc;
+  --cream3:   #c8b89a;
+  --line:     rgba(180,150,130,.18);
+  --line2:    rgba(180,150,130,.09);
+  --wave1:    rgba(212,132,154,.12);
+  --wave2:    rgba(212,132,154,.06);
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Cormorant Garamond',serif;
+  background:var(--bg);
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* ══════════════════════════════════════
+   CANVAS ФОНЫ
+══════════════════════════════════════ */
+#cv-wave{
+  position:fixed;inset:0;
+  pointer-events:none;z-index:0;
+  opacity:1;
+}
+
+/* ══════════════════════════════════════
+   НЕЖНАЯ ТЕКСТУРА
+══════════════════════════════════════ */
+.grain{
+  position:fixed;inset:0;z-index:1;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+  background-size:180px;
+  opacity:.025;
+  animation:grain-shift 10s steps(2) infinite;
+}
+@keyframes grain-shift{
+  0%{transform:translate(0,0);}
+  25%{transform:translate(-2px,1px);}
+  50%{transform:translate(1px,-2px);}
+  75%{transform:translate(2px,1px);}
+  100%{transform:translate(-1px,-1px);}
+}
+
+/* ══════════════════════════════════════
+   ОБЩИЙ КОНТЕЙНЕР
+══════════════════════════════════════ */
+.wrap{
+  position:relative;z-index:2;
+  max-width:760px;margin:0 auto;
+  padding:0 clamp(1.2rem,5vw,3rem);
+}
+
+/* ══════════════════════════════════════
+   FILM STRIP
+══════════════════════════════════════ */
+.strip-top,.strip-bot{
+  position:relative;z-index:2;
+  display:flex;align-items:center;
+  padding:.65rem 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+  user-select:none;
+  background:rgba(250,248,245,.7);
+  backdrop-filter:blur(4px);
+}
+.strip-inner{
+  display:flex;gap:3rem;align-items:center;
+  white-space:nowrap;
+  animation:marquee 22s linear infinite;
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.18em;
+  color:var(--ink3);
+}
+.strip-inner span{color:var(--rose);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero{
+  position:relative;z-index:2;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:4rem clamp(1.2rem,5vw,3rem);
+}
+
+.hero-reel{
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.28em;
+  color:var(--ink3);margin-bottom:3rem;
+  animation:blink-in 1s .2s both;
+}
+
+.hero-title{
+  font-size:clamp(3.6rem,13vw,8.5rem);
+  font-weight:300;font-style:italic;
+  line-height:.93;
+  color:var(--ink);
+  animation:reveal 1.4s .5s both;
+  margin-bottom:.5rem;
+}
+.hero-title .name{
+  display:block;
+  color:var(--rose);
+  font-style:normal;
+  font-weight:400;
+}
+
+.hero-date-badge{
+  display:inline-flex;align-items:center;gap:.8rem;
+  margin:2rem 0;
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;letter-spacing:.22em;
+  color:var(--cream3);
+  animation:blink-in 1s 1s both;
+}
+.hero-date-badge::before,.hero-date-badge::after{
+  content:'';display:block;
+  width:36px;height:1px;background:var(--rose2);
+}
+
+.hero-sub{
+  font-size:clamp(1rem,2.5vw,1.3rem);
+  font-style:italic;line-height:2;
+  color:var(--ink2);max-width:380px;
+  font-weight:300;
+  animation:blink-in 1s 1.2s both;
+}
+
+/* MAP */
+.hero-map{
+  position:relative;
+  width:min(460px,88vw);height:120px;
+  margin:3rem auto 2rem;
+  animation:blink-in 1s 1.4s both;
+}
+.hero-map svg{position:absolute;inset:0;width:100%;height:100%;}
+.map-label{
+  position:absolute;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+}
+.map-label.l{left:0;align-items:flex-start;}
+.map-label.r{right:0;align-items:flex-end;}
+.map-city{
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink3);
+}
+.map-who{font-style:italic;font-size:1rem;color:var(--rose);}
+.map-dot{
+  width:10px;height:10px;border-radius:50%;
+  border:1px solid var(--rose2);
+  display:flex;align-items:center;justify-content:center;
+  animation:dot-pulse 2.5s ease-in-out infinite;
+}
+.map-dot::after{content:'';width:4px;height:4px;border-radius:50%;background:var(--rose);}
+@keyframes dot-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(212,132,154,.3);}
+  50%{box-shadow:0 0 0 7px rgba(212,132,154,0);}
+}
+
+.scroll-cue{
+  margin-top:3rem;
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;letter-spacing:.28em;
+  color:var(--ink3);
+  animation:bob 2.5s ease-in-out infinite, blink-in 1s 1.6s both;
+}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
+
+/* ══════════════════════════════════════
+   АНИМАЦИИ ПОЯВЛЕНИЯ
+══════════════════════════════════════ */
+@keyframes reveal{
+  from{opacity:0;clip-path:inset(0 100% 0 0);}
+  to{opacity:1;clip-path:inset(0 0% 0 0);}
+}
+@keyframes blink-in{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ══════════════════════════════════════
+   SECTION HEADERS
+══════════════════════════════════════ */
+.ch{
+  position:relative;z-index:2;
+  padding:5rem clamp(1.2rem,5vw,3rem) 0;
+  max-width:760px;margin:0 auto;
+}
+.ch-inner{
+  display:flex;align-items:baseline;gap:1.5rem;
+  border-bottom:1px solid var(--line);
+  padding-bottom:1rem;margin-bottom:4rem;
+}
+.ch-num{
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;color:var(--rose);letter-spacing:.15em;
+  flex-shrink:0;
+}
+.ch-title{
+  font-size:clamp(1.6rem,4.5vw,2.4rem);
+  font-weight:300;
+}
+.ch-title em{font-style:italic;color:var(--rose);}
+
+/* ══════════════════════════════════════
+   КАРТОЧКИ — ПИСЬМА
+══════════════════════════════════════ */
+.letters{
+  position:relative;z-index:2;
+  max-width:760px;margin:0 auto;
+  padding:0 clamp(1.2rem,5vw,3rem) 5rem;
+  display:flex;flex-direction:column;gap:0;
+}
+
+.lcard{
+  position:relative;
+  padding:2.4rem 2.2rem;
+  border-bottom:1px solid var(--line2);
+  opacity:0;transform:translateY(22px);
+  transition:opacity .75s ease,transform .75s ease;
+}
+.lcard.vis{opacity:1;transform:translateY(0);}
+
+.lcard::before{
+  content:attr(data-n);
+  position:absolute;top:2.4rem;
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;color:var(--ink3);
+  letter-spacing:.1em;
+}
+.lcard.lft::before{right:2.2rem;}
+.lcard.rgt::before{left:2.2rem;}
+
+.lcard-accent{
+  width:22px;height:1px;
+  margin-bottom:1.2rem;
+  background:var(--cream2);
+}
+.lcard.rgt .lcard-accent{background:var(--rose2);}
+
+.lcard-from{
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--cream3);margin-bottom:.3rem;
+}
+.lcard.rgt .lcard-from{color:var(--rose);}
+
+.lcard-date{
+  font-family:'DM Mono',monospace;
+  font-size:.5rem;letter-spacing:.15em;
+  color:var(--ink3);margin-bottom:1rem;
+}
+
+.lcard-title{
+  font-size:clamp(1.1rem,3vw,1.4rem);
+  font-weight:400;color:var(--ink);
+  margin-bottom:.7rem;
+  line-height:1.3;
+}
+
+.lcard-body{
+  font-size:clamp(.9rem,2vw,1.1rem);
+  line-height:2;color:var(--ink2);
+  font-style:italic;
+  font-weight:300;
+}
+.lcard-body em{font-style:normal;color:var(--ink);}
+
+.lcard.lft{padding-left:clamp(1.5rem,6vw,5rem);}
+.lcard.rgt{
+  padding-right:clamp(1.5rem,6vw,5rem);
+  background:rgba(212,132,154,.04);
+  border-left:1px solid rgba(212,132,154,.12);
+}
+
+/* ══════════════════════════════════════
+   СТАТИСТИКА
+══════════════════════════════════════ */
+.stats{
+  position:relative;z-index:2;
+  max-width:760px;margin:0 auto;
+  padding:0 clamp(1.2rem,5vw,3rem) 5rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:0;
+}
+.stat{
+  padding:2rem 1.5rem;
+  border-right:1px solid var(--line2);
+  border-bottom:1px solid var(--line2);
+  text-align:center;
+}
+.stat:last-child{border-right:none;}
+.stat-num{
+  font-size:clamp(2rem,5vw,2.8rem);
+  font-weight:300;color:var(--rose);
+  display:block;margin-bottom:.4rem;
+  font-style:italic;
+}
+.stat-lbl{
+  font-family:'DM Mono',monospace;
+  font-size:.5rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink3);
+}
+
+/* ══════════════════════════════════════
+   ЧАСЫ
+══════════════════════════════════════ */
+.clocks{
+  position:relative;z-index:2;
+  max-width:760px;margin:0 auto;
+  padding:4rem clamp(1.2rem,5vw,3rem);
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(2rem,6vw,5rem);
+  border-top:1px solid var(--line2);
+  border-bottom:1px solid var(--line2);
+  flex-wrap:wrap;
+}
+.clock{text-align:center;}
+.clock-lbl{
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink3);
+  margin-bottom:.8rem;
+}
+.clock-ring{
+  width:72px;height:72px;border-radius:50%;
+  border:1px solid var(--line);
+  position:relative;margin:0 auto .8rem;
+  background:rgba(245,240,234,.95);
+}
+.clock-ring::before{
+  content:'';position:absolute;inset:4px;border-radius:50%;
+  border:1px dashed rgba(212,132,154,.15);
+}
+.ch-hand{
+  position:absolute;left:50%;bottom:50%;
+  transform-origin:bottom center;border-radius:1px;
+}
+.hh{width:2px;height:20px;background:var(--ink);margin-left:-1px;}
+.mh{width:1px;height:26px;background:var(--ink2);margin-left:-.5px;}
+.clock-center{
+  position:absolute;top:50%;left:50%;
+  width:4px;height:4px;border-radius:50%;
+  background:var(--rose);transform:translate(-50%,-50%);
+}
+.clock-time{
+  font-family:'DM Mono',monospace;
+  font-size:1rem;letter-spacing:.12em;
+  color:var(--rose);
+}
+.clocks-div{
+  font-size:2rem;font-style:italic;
+  color:var(--ink3);padding-bottom:1.5rem;
+}
+
+/* ══════════════════════════════════════
+   ЦИТАТА
+══════════════════════════════════════ */
+.quote-sec{
+  position:relative;z-index:2;
+  max-width:760px;margin:0 auto;
+  padding:6rem clamp(1.2rem,5vw,3rem);
+  text-align:center;
+}
+.quote-mark{
+  font-size:5rem;line-height:.3;
+  color:var(--rose2);display:block;
+  margin-bottom:2.5rem;
+  font-style:italic;
+}
+.quote-text{
+  font-size:clamp(1.15rem,3.5vw,1.65rem);
+  font-style:italic;line-height:1.9;
+  color:var(--ink);max-width:560px;margin:0 auto 2rem;
+  font-weight:300;
+}
+.quote-attr{
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--ink3);
+}
+
+/* ══════════════════════════════════════
+   FINALE
+══════════════════════════════════════ */
+.finale{
+  position:relative;z-index:2;
+  max-width:760px;margin:0 auto;
+  padding:7rem clamp(1.2rem,5vw,3rem) 5rem;
+  text-align:center;
+}
+.finale-kicker{
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--ink3);
+  margin-bottom:2rem;
+}
+.finale-h{
+  font-size:clamp(2.5rem,9vw,5.5rem);
+  font-weight:300;font-style:italic;
+  line-height:1.05;color:var(--ink);
+  margin-bottom:.5rem;
+}
+.finale-h span{color:var(--rose);}
+.finale-p{
+  font-size:clamp(.95rem,2.5vw,1.15rem);
+  font-style:italic;line-height:2.2;
+  color:var(--ink2);max-width:500px;
+  margin:2rem auto 3rem;
+  font-weight:300;
+}
+.finale-p em{font-style:normal;color:var(--ink);}
+
+/* Пульс-сигнал */
+.pulse-row{
+  display:flex;align-items:center;justify-content:center;
+  gap:1rem;margin-bottom:4rem;
+}
+.pulse-dot{
+  width:8px;height:8px;border-radius:50%;
+  animation:pulse-anim 1.8s ease-in-out infinite;
+}
+.pulse-dot.a{background:var(--rose);}
+.pulse-dot.b{background:var(--cream3);animation-delay:.6s;}
+.pulse-wire{
+  width:100px;height:1px;position:relative;overflow:hidden;
+  background:var(--rose3);
+}
+.pulse-wire::after{
+  content:'';position:absolute;top:0;left:-100%;
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--rose2),transparent);
+  animation:wire-travel 1.8s linear infinite;
+}
+@keyframes pulse-anim{0%,100%{opacity:.3;transform:scale(1);}50%{opacity:1;transform:scale(1.5);}}
+@keyframes wire-travel{from{left:-100%;}to{left:100%;}}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer{
+  position:relative;z-index:2;
+  border-top:1px solid var(--line2);
+  padding:1.5rem;text-align:center;
+  font-family:'DM Mono',monospace;
+  font-size:.5rem;letter-spacing:.22em;
+  color:var(--ink3);
+}
+
+/* ══════════════════════════════════════
+   ПАСХАЛКИ
+══════════════════════════════════════ */
+
+/* 1. Сердечки при клике */
+.heart-burst{
+  position:fixed;
+  pointer-events:none;
+  z-index:9999;
+  font-size:1.2rem;
+  animation:heart-fly 1.1s ease-out forwards;
+  user-select:none;
+}
+@keyframes heart-fly{
+  0%{opacity:1;transform:translate(0,0) scale(1);}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.4);}
+}
+
+/* 2. Тост «02.11» при клике на счётчик дней */
+.toast{
+  position:fixed;bottom:2rem;left:50%;
+  transform:translateX(-50%) translateY(6px);
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--rose2);
+  border-radius:40px;
+  padding:.7rem 1.8rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-style:italic;
+  color:var(--rose);
+  box-shadow:0 8px 28px rgba(212,132,154,.18);
+  opacity:0;
+  pointer-events:none;
+  z-index:9999;
+  backdrop-filter:blur(8px);
+  transition:opacity .35s ease, transform .35s ease;
+  white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* 3. Секретная надпись при долгом нажатии на заголовок */
+.secret-overlay{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  z-index:9998;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .5s ease;
+  background:radial-gradient(ellipse at center, rgba(245,224,230,.96) 0%, rgba(250,248,245,.98) 70%);
+}
+.secret-overlay.show{opacity:1;pointer-events:all;}
+.secret-inner{
+  text-align:center;
+  padding:3rem;
+}
+.secret-inner p{
+  font-size:clamp(1.2rem,4vw,2rem);
+  font-style:italic;
+  color:var(--rose);
+  line-height:2;
+  max-width:480px;
+  animation:blink-in .6s ease both;
+}
+.secret-inner .secret-close{
+  margin-top:2rem;
+  display:inline-block;
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;letter-spacing:.25em;
+  color:var(--ink3);
+  cursor:pointer;
+  pointer-events:all;
+  padding:.5rem 1rem;
+  border:1px solid var(--line);
+  border-radius:20px;
+  transition:color .2s, border-color .2s;
+}
+.secret-inner .secret-close:hover{color:var(--rose);border-color:var(--rose2);}
+
+/* 4. Shimmer на имени Леся при hover */
+.name{
+  cursor:pointer;
+  background:linear-gradient(90deg, var(--rose) 0%, #f0a8b8 35%, var(--rose) 60%, #e87090 80%, var(--rose) 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  transition:background-position .4s ease;
+}
+.name:hover{
+  background-position:200% center;
+  animation:shimmer-name 1.2s linear infinite;
+}
+@keyframes shimmer-name{
+  0%{background-position:0% center;}
+  100%{background-position:200% center;}
+}
+
+/* 5. Эффект пульса на карточку при двойном клике */
+.lcard-ripple{
+  position:absolute;inset:0;
+  border-radius:4px;
+  background:radial-gradient(ellipse at center, rgba(212,132,154,.22) 0%, transparent 70%);
+  opacity:0;
+  pointer-events:none;
+  animation:card-ripple .8s ease-out forwards;
+}
+@keyframes card-ripple{
+  0%{opacity:1;transform:scale(.9);}
+  100%{opacity:0;transform:scale(1.04);}
+}
+
+/* 6. Konami-код — снег из сердечек */
+.love-snow{
+  position:fixed;inset:0;pointer-events:none;z-index:9990;
+}
+.snow-heart{
+  position:absolute;
+  top:-2rem;
+  font-size:1rem;
+  opacity:.8;
+  animation:snow-fall linear forwards;
+}
+@keyframes snow-fall{
+  0%{transform:translateY(0) rotate(0deg);opacity:.8;}
+  100%{transform:translateY(105vh) rotate(360deg);opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="cv-wave"></canvas>
+<div class="grain"></div>
+
+<!-- ══ FILM STRIP ══ -->
+<div class="strip-top">
+  <div class="strip-inner">
+    <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <p class="hero-reel">[ 02 · 11 · 2025— сегодня ]</p>
+
+  <h1 class="hero-title">
+    С Днём<br>
+    <span class="name">Рождения,<br>Леся</span>
+  </h1>
+
+  <div class="hero-date-badge">ПОЛЬША · НЬЮ-ЙОРК</div>
+
+  <p class="hero-sub">Нас разделяет океан.<br>Но не разделяет ничто из важного.</p>
+
+  <div class="hero-map">
+    <svg viewBox="0 0 460 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="60" x2="420" y2="60" stroke="#e0d0bc" stroke-width="1"/>
+      <path d="M 40 60 Q 230 5 420 60"
+            stroke="#d4849a" stroke-width="1"
+            stroke-dasharray="4 5" fill="none" opacity=".7"/>
+      <text x="230" y="82" text-anchor="middle"
+            font-family="'DM Mono',monospace" font-size="7.5"
+            fill="#b8a898" letter-spacing="4">8 ЧАСОВ РАЗНИЦЫ</text>
+      <circle r="2.5" fill="#d4849a" opacity=".9">
+        <animateMotion dur="5s" repeatCount="indefinite"
+          path="M 40 60 Q 230 5 420 60"/>
+      </circle>
+    </svg>
+    <div class="map-label l">
+      <div class="map-dot"></div>
+      <span class="map-city">Польша</span>
+      <span class="map-who">Дима</span>
+    </div>
+    <div class="map-label r">
+      <div class="map-dot"></div>
+      <span class="map-city">Нью-Йорк</span>
+      <span class="map-who">Леся</span>
+    </div>
+  </div>
+
+  <p class="scroll-cue">↓ &nbsp; читать</p>
+</section>
+
+<!-- ══ ИСТОРИЯ ══ -->
+<div class="ch">
+  <div class="ch-inner">
+    <span class="ch-num">01 —</span>
+    <h2 class="ch-title">Как всё <em>начиналось</em></h2>
+  </div>
+</div>
+
+<div class="letters" id="letters">
+
+  <div class="lcard lft" data-n="001">
+    <div class="lcard-accent"></div>
+    <p class="lcard-from">Дима</p>
+    <p class="lcard-date">Начало · Резкость</p>
+    <h3 class="lcard-title">Помнишь, с чего всё началось?</h3>
+    <p class="lcard-body">
+      Наше первое общение было резким, даже грубым — мы могли задеть
+      друг друга словами и почти не общались. Тогда сложно было представить,
+      что из этого вообще может получиться <em>что-то настоящее</em>.
+    </p>
+  </div>
+
+  <div class="lcard rgt" data-n="002">
+    <div class="lcard-accent"></div>
+    <p class="lcard-from">Дима → Леся</p>
+    <p class="lcard-date">После · Перемены</p>
+    <h3 class="lcard-title">Но в какой-то момент всё изменилось</h3>
+    <p class="lcard-body">
+      Я начал замечать мелочи, которые тебе нравятся, старался радовать тебя,
+      и мы стали ближе. Мы всё больше общались, шутили, флиртовали…
+      Что-то менялось — <em>тихо, но неизбежно</em>.
+    </p>
+  </div>
+
+  <div class="lcard lft" data-n="003">
+    <div class="lcard-accent"></div>
+    <p class="lcard-from">Дима</p>
+    <p class="lcard-date">02 · 11 · 2025</p>
+    <h3 class="lcard-title">Та ночь</h3>
+    <p class="lcard-body">
+      02.11 стала особенной. Я признался тебе в своих чувствах
+      и предложил быть вместе. Когда ты сказала «да» — я был
+      по-настоящему счастлив. Это было одно из самых
+      <em>тёплых и искренних чувств</em> в моей жизни.
+    </p>
+  </div>
+
+  <div class="lcard rgt" data-n="004">
+    <div class="lcard-accent"></div>
+    <p class="lcard-from">Вместе</p>
+    <p class="lcard-date">5 месяцев</p>
+    <h3 class="lcard-title">Бесконечные разговоры, смех, GTA 5 RP</h3>
+    <p class="lcard-body">
+      Нам было хорошо вместе — бесконечные разговоры, смех,
+      наша «семья», которую мы создали и развивали.
+      Ты всегда поддерживала меня, и <em>благодаря тебе многое стало лучше</em>.
+    </p>
+  </div>
+
+  <div class="lcard lft" data-n="005">
+    <div class="lcard-accent"></div>
+    <p class="lcard-from">Дима</p>
+    <p class="lcard-date">Честно</p>
+    <h3 class="lcard-title">Я понимаю свои ошибки</h3>
+    <p class="lcard-body">
+      Были моменты, когда я выбирал не тебя —
+      и я <em>искренне об этом жалею</em>. Эти ошибки многое во мне изменили,
+      заставили переосмыслить важные вещи и понять,
+      как сильно ты для меня значишь.
+    </p>
+  </div>
+
+  <div class="lcard rgt" data-n="006">
+    <div class="lcard-accent"></div>
+    <p class="lcard-from">Мы</p>
+    <p class="lcard-date">После паузы</p>
+    <h3 class="lcard-title">20 дней — и мы вернулись</h3>
+    <p class="lcard-body">
+      Мы прошли через разногласия, через паузу длиной в 20 дней…
+      И всё же вернулись друг к другу. Уже другими —
+      более осознанными, более искренними,
+      <em>любящими по-настоящему</em>.
+    </p>
+  </div>
+
+</div>
+
+<!-- ══ СТАТИСТИКА ══ -->
+<div class="ch">
+  <div class="ch-inner">
+    <span class="ch-num">02 —</span>
+    <h2 class="ch-title">Наши <em>цифры</em></h2>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat">
+    <span class="stat-num" id="cnt">—</span>
+    <span class="stat-lbl">дней вместе</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">02.11</span>
+    <span class="stat-lbl">наша дата</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">20</span>
+    <span class="stat-lbl">дней паузы</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">∞</span>
+    <span class="stat-lbl">впереди</span>
+  </div>
+</div>
+
+<!-- ══ ЧАСЫ ══ -->
+<div class="ch" style="padding-bottom:0;">
+  <div class="ch-inner">
+    <span class="ch-num">03 —</span>
+    <h2 class="ch-title">Прямо <em>сейчас</em></h2>
+  </div>
+</div>
+
+<div class="clocks">
+  <div class="clock">
+    <p class="clock-lbl">Польша</p>
+    <div class="clock-ring">
+      <div class="ch-hand hh" id="hh-a"></div>
+      <div class="ch-hand mh"  id="mh-a"></div>
+      <div class="clock-center"></div>
+    </div>
+    <p class="clock-time" id="time-a">--:--</p>
+  </div>
+  <div class="clocks-div">&amp;</div>
+  <div class="clock">
+    <p class="clock-lbl">Нью-Йорк</p>
+    <div class="clock-ring">
+      <div class="ch-hand hh" id="hh-b"></div>
+      <div class="ch-hand mh"  id="mh-b"></div>
+      <div class="clock-center"></div>
+    </div>
+    <p class="clock-time" id="time-b">--:--</p>
+  </div>
+</div>
+
+<!-- ══ ЦИТАТА ══ -->
+<div class="quote-sec">
+  <span class="quote-mark">"</span>
+  <p class="quote-text">
+    Солнышко, ты для меня правда самая лучшая.
+    Самая тёплая, самая родная, самая важная.
+    Я ценю тебя, наши моменты и всё, что у нас есть.
+    И хочу дальше идти рядом с тобой — уже бережнее, честнее.
+  </p>
+  <p class="quote-attr">— Дима 🤍</p>
+</div>
+
+<!-- ══ FILM STRIP BOT ══ -->
+<div class="strip-bot">
+  <div class="strip-inner" style="animation-direction:reverse;">
+    <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК
+  </div>
+</div>
+
+<!-- ══ ФИНАЛ ══ -->
+<section class="finale">
+  <p class="finale-kicker">[ день рождения ]</p>
+  <h2 class="finale-h">С Днём<br>Рождения,<br><span>моё Солнышко</span></h2>
+  <p class="finale-p">
+    У нас были планы встретиться в Норвегии.<br>
+    Возможно, тогда они строились больше на симпатии —<br>
+    но <em>сейчас я точно знаю</em>: мои чувства к тебе настоящие.<br><br>
+    Хочу дальше идти рядом с тобой — уже бережнее,
+    честнее и с <em>любовью, которая стала только сильнее</em>. 🤍
+  </p>
+  <div class="pulse-row">
+    <div class="pulse-dot a"></div>
+    <div class="pulse-wire"></div>
+    <div class="pulse-dot b"></div>
+  </div>
+</section>
+
+<footer>Дима → Леся &nbsp;·&nbsp; Польша → Нью-Йорк &nbsp;·&nbsp; через океан, с любовью</footer>
+
+<!-- ══ ПАСХАЛКИ — ОВЕРЛЕИ ══ -->
+<div class="toast" id="toast"></div>
+
+<div class="secret-overlay" id="secret-overlay">
+  <div class="secret-inner">
+    <p>ты нашла секрет 🤍<br>я думаю о тебе<br>каждый день<br><em>каждую минуту</em></p>
+    <span class="secret-close" id="secret-close">[ закрыть ]</span>
+  </div>
+</div>
+
+<div class="love-snow" id="love-snow"></div>
+
+<script>
+/* ── CANVAS: Анимированные морские волны ── */
+(function(){
+  const cv = document.getElementById('cv-wave');
+  const cx = cv.getContext('2d');
+  let W, H, t = 0;
+
+  function resize(){
+    W = cv.width = window.innerWidth;
+    H = cv.height = window.innerHeight;
+  }
+
+  function drawWave(yBase, amplitude, wavelength, speed, colorStops, alpha){
+    cx.save();
+    cx.globalAlpha = alpha;
+    const grad = cx.createLinearGradient(0, yBase - amplitude, 0, H);
+    colorStops.forEach(([stop, color]) => grad.addColorStop(stop, color));
+    cx.fillStyle = grad;
+    cx.beginPath();
+    cx.moveTo(0, H);
+    for(let x = 0; x <= W; x += 2){
+      const y = yBase
+        + Math.sin((x / wavelength) + t * speed) * amplitude
+        + Math.sin((x / (wavelength * .6)) + t * speed * 1.3 + 1) * (amplitude * .4);
+      cx.lineTo(x, y);
+    }
+    cx.lineTo(W, H);
+    cx.closePath();
+    cx.fill();
+    cx.restore();
+  }
+
+  function draw(){
+    cx.clearRect(0, 0, W, H);
+    t += .008;
+
+    /* Волна 1 — глубокая, розово-молочная */
+    drawWave(
+      H * .72, 28, 320, .6,
+      [[0,'rgba(232,180,192,.22)'],[.4,'rgba(240,200,210,.1)'],[1,'rgba(250,248,245,0)']],
+      1
+    );
+
+    /* Волна 2 — средняя, кремовая */
+    drawWave(
+      H * .78, 20, 260, .8,
+      [[0,'rgba(224,208,188,.28)'],[.5,'rgba(230,215,200,.12)'],[1,'rgba(250,248,245,0)']],
+      1
+    );
+
+    /* Волна 3 — поверхностная, нежно-розовая */
+    drawWave(
+      H * .85, 14, 200, 1.1,
+      [[0,'rgba(212,132,154,.18)'],[.4,'rgba(232,180,192,.08)'],[1,'rgba(250,248,245,0)']],
+      1
+    );
+
+    /* Волна 4 — тонкая пена наверху */
+    drawWave(
+      H * .89, 8, 150, 1.4,
+      [[0,'rgba(255,255,255,.55)'],[.3,'rgba(245,224,230,.18)'],[1,'rgba(250,248,245,0)']],
+      1
+    );
+
+    /* Мягкое свечение вверху (рассеянный свет) */
+    const glowTop = cx.createRadialGradient(W*.5, 0, 0, W*.5, 0, H*.55);
+    glowTop.addColorStop(0, 'rgba(255,240,245,.14)');
+    glowTop.addColorStop(.5, 'rgba(255,235,240,.06)');
+    glowTop.addColorStop(1, 'rgba(250,248,245,0)');
+    cx.fillStyle = glowTop;
+    cx.fillRect(0, 0, W, H);
+
+    /* Боковые рефлексы */
+    const glowL = cx.createRadialGradient(0, H*.5, 0, 0, H*.5, W*.4);
+    glowL.addColorStop(0, 'rgba(212,132,154,.07)');
+    glowL.addColorStop(1, 'rgba(212,132,154,0)');
+    cx.fillStyle = glowL;
+    cx.fillRect(0, 0, W, H);
+
+    const glowR = cx.createRadialGradient(W, H*.4, 0, W, H*.4, W*.4);
+    glowR.addColorStop(0, 'rgba(224,208,188,.1)');
+    glowR.addColorStop(1, 'rgba(224,208,188,0)');
+    cx.fillStyle = glowR;
+    cx.fillRect(0, 0, W, H);
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  draw();
+})();
+
+/* ── Счётчик дней ── */
+(function(){
+  const start = new Date(2025,11,2);
+  const total = Math.floor((Date.now()-start)/86400000);
+  const el = document.getElementById('cnt');
+  let cur = 0;
+  const step = Math.max(1, Math.floor(total/50));
+  const t = setInterval(()=>{
+    cur = Math.min(cur+step, total);
+    el.textContent = cur;
+    if(cur >= total) clearInterval(t);
+  }, 22);
+})();
+
+/* ── Часы ── */
+(function(){
+  const offA=2, offB=-4;
+  function getTime(off){
+    const now = new Date();
+    const d = new Date(now.getTime() + now.getTimezoneOffset()*60000 + off*3600000);
+    return{h:d.getHours(), m:d.getMinutes(), s:d.getSeconds()};
+  }
+  function setHands(sid, off){
+    const{h,m,s} = getTime(off);
+    const hd = (h%12)*30 + m*.5;
+    const md = m*6 + s*.1;
+    document.getElementById('hh-'+sid).style.transform=`translateX(-50%) rotate(${hd}deg)`;
+    document.getElementById('mh-'+sid).style.transform=`translateX(-50%) rotate(${md}deg)`;
+    document.getElementById('time-'+sid).textContent =
+      String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+  }
+  function tick(){ setHands('a',offA); setHands('b',offB); }
+  tick(); setInterval(tick,1000);
+})();
+
+/* ── Появление карточек ── */
+(function(){
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting)
+        setTimeout(()=>e.target.classList.add('vis'), i*120);
+    });
+  },{threshold:.08});
+  document.querySelectorAll('.lcard').forEach(el=>obs.observe(el));
+})();
+
+/* ══════════════════════════════════════
+   ПАСХАЛКИ
+══════════════════════════════════════ */
+
+/* 1. Сердечки при каждом клике по странице */
+(function(){
+  const hearts = ['🤍','🌸','💗','🫧','✨','🌷','💝','🩷'];
+  document.addEventListener('click', e=>{
+    const count = 5 + Math.floor(Math.random()*4);
+    for(let i=0;i<count;i++){
+      const el = document.createElement('div');
+      el.className = 'heart-burst';
+      el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+      const angle = (Math.random()*280 - 140) * (Math.PI/180);
+      const dist = 60 + Math.random()*80;
+      el.style.cssText = `
+        left:${e.clientX}px;top:${e.clientY}px;
+        --dx:${Math.sin(angle)*dist}px;
+        --dy:${-Math.abs(Math.cos(angle)*dist) - 20}px;
+        animation-delay:${Math.random()*.15}s;
+        font-size:${.8+Math.random()*.8}rem;
+      `;
+      document.body.appendChild(el);
+      el.addEventListener('animationend', ()=>el.remove());
+    }
+  });
+})();
+
+/* 2. Тост с нежным сообщением при клике на счётчик дней */
+(function(){
+  const el = document.getElementById('cnt');
+  const toast = document.getElementById('toast');
+  const msgs = [
+    'каждый день — это подарок 🤍',
+    '02.11 — дата, которую я не забуду',
+    'ты моё любимое число',
+    'считаю дни рядом с тобой',
+    'и ещё столько впереди ∞',
+  ];
+  let idx = 0, timer;
+  el.style.cursor = 'pointer';
+  el.addEventListener('click', ()=>{
+    toast.textContent = msgs[idx++ % msgs.length];
+    toast.classList.add('show');
+    clearTimeout(timer);
+    timer = setTimeout(()=>toast.classList.remove('show'), 2800);
+  });
+})();
+
+/* 3. Секретная надпись при долгом удержании заголовка (1.5 сек) */
+(function(){
+  const title = document.querySelector('.hero-title');
+  const overlay = document.getElementById('secret-overlay');
+  const close = document.getElementById('secret-close');
+  let hold;
+  title.addEventListener('mousedown', ()=>{
+    hold = setTimeout(()=>overlay.classList.add('show'), 1500);
+  });
+  title.addEventListener('mouseup', ()=>clearTimeout(hold));
+  title.addEventListener('mouseleave', ()=>clearTimeout(hold));
+  title.addEventListener('touchstart', ()=>{
+    hold = setTimeout(()=>overlay.classList.add('show'), 1500);
+  }, {passive:true});
+  title.addEventListener('touchend', ()=>clearTimeout(hold));
+  close.addEventListener('click', ()=>overlay.classList.remove('show'));
+  overlay.addEventListener('click', e=>{
+    if(e.target === overlay) overlay.classList.remove('show');
+  });
+})();
+
+/* 4. Тройной клик на «&» между часами — показывает тост про время */
+(function(){
+  const div = document.querySelector('.clocks-div');
+  let clicks = 0, timer;
+  const msgs = [
+    '8 часов разницы — но в мыслях рядом 🤍',
+    'когда ты просыпаешься — я уже думаю о тебе',
+    'расстояние измеряется не часами',
+  ];
+  let idx = 0;
+  const toast = document.getElementById('toast');
+  div.style.cursor = 'pointer';
+  div.addEventListener('click', ()=>{
+    clicks++;
+    clearTimeout(timer);
+    timer = setTimeout(()=>clicks=0, 600);
+    if(clicks >= 3){
+      clicks = 0;
+      toast.textContent = msgs[idx++ % msgs.length];
+      toast.classList.add('show');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(()=>toast.classList.remove('show'), 3000);
+    }
+  });
+})();
+
+/* 5. Двойной клик на карточку — пульс-эффект и нежное слово */
+(function(){
+  const toastMsgs = {
+    '001':'с чего-то маленького начинается всё большое 🌸',
+    '002':'перемены — это тихая магия 🤍',
+    '003':'02.11 — моя любимая дата',
+    '004':'«семья» — это мы 🌷',
+    '005':'я стал лучше — ради тебя',
+    '006':'и снова вместе — уже навсегда 💗',
+  };
+  const toast = document.getElementById('toast');
+  document.querySelectorAll('.lcard').forEach(card=>{
+    card.addEventListener('dblclick', ()=>{
+      const old = card.querySelector('.lcard-ripple');
+      if(old) old.remove();
+      const ripple = document.createElement('div');
+      ripple.className = 'lcard-ripple';
+      card.appendChild(ripple);
+      ripple.addEventListener('animationend',()=>ripple.remove());
+      const n = card.getAttribute('data-n');
+      if(toastMsgs[n]){
+        toast.textContent = toastMsgs[n];
+        toast.classList.add('show');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(()=>toast.classList.remove('show'), 2800);
+      }
+    });
+  });
+})();
+
+/* 6. Konami-код (↑↑↓↓←→←→BA) — снегопад из сердечек */
+(function(){
+  const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let pos = 0;
+  const snow = document.getElementById('love-snow');
+  const toast = document.getElementById('toast');
+  const hearts = ['🤍','🌸','💗','🌷','✨','🩷','💝','🫧'];
+
+  document.addEventListener('keydown', e=>{
+    if(e.key === code[pos]){ pos++;
+      if(pos === code.length){
+        pos = 0;
+        toast.textContent = '💗 ты нашла секретный код! с днём рождения, солнышко 💗';
+        toast.classList.add('show');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(()=>toast.classList.remove('show'), 4000);
+        for(let i=0;i<60;i++){
+          setTimeout(()=>{
+            const h = document.createElement('div');
+            h.className = 'snow-heart';
+            h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+            h.style.left = Math.random()*100 + 'vw';
+            h.style.fontSize = (.7+Math.random()*.9)+'rem';
+            h.style.animationDuration = (3+Math.random()*3)+'s';
+            h.style.opacity = .6+Math.random()*.4;
+            snow.appendChild(h);
+            h.addEventListener('animationend',()=>h.remove());
+          }, Math.random()*2000);
+        }
+      }
+    } else { pos = 0; }
+  });
+})();
+
+/* 7. Секрет в Title — смена title на нежные слова каждые 5 сек */
+(function(){
+  const titles = [
+    'Леся — 🤍',
+    'с днём рождения, солнышко',
+    'ты моя любимая 🌸',
+    'Польша → Нью-Йорк 🤍',
+    'думаю о тебе — Дима',
+    '02.11 — наш день 💗',
+  ];
+  let i = 0;
+  setInterval(()=>{
+    i = (i+1) % titles.length;
+    document.title = titles[i];
+  }, 5000);
+})();
+</script>
+</body>
+</html>
