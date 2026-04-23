@@ -75,6 +75,88 @@ body{
 }
 
 /* ══════════════════════════════════════
+   MUSIC PLAYER
+══════════════════════════════════════ */
+.music-player{
+  position:fixed;bottom:1.8rem;right:1.8rem;
+  z-index:9997;
+  display:flex;align-items:center;gap:.7rem;
+  background:rgba(255,255,255,.88);
+  border:1px solid var(--rose2);
+  border-radius:40px;
+  padding:.55rem 1rem .55rem .7rem;
+  box-shadow:0 8px 28px rgba(212,132,154,.18);
+  backdrop-filter:blur(10px);
+  transition:all .3s ease;
+  user-select:none;
+}
+.music-player:hover{
+  box-shadow:0 10px 36px rgba(212,132,154,.28);
+}
+.music-btn{
+  width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--rose2);
+  background:var(--rose3);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;
+  transition:background .2s, transform .15s;
+  flex-shrink:0;
+}
+.music-btn:hover{background:var(--rose2);transform:scale(1.08);}
+.music-btn:active{transform:scale(.96);}
+.music-note{
+  font-family:'DM Mono',monospace;
+  font-size:.45rem;letter-spacing:.15em;
+  color:var(--rose);
+  white-space:nowrap;
+  max-width:90px;
+  overflow:hidden;
+}
+.music-note.playing{
+  animation:marquee-note 8s linear infinite;
+}
+@keyframes marquee-note{
+  0%{transform:translateX(0);}50%{transform:translateX(-30%);}100%{transform:translateX(0);}
+}
+.volume-row{
+  display:flex;align-items:center;gap:.4rem;
+}
+.vol-icon{
+  font-size:.75rem;color:var(--rose);cursor:pointer;
+  flex-shrink:0;
+}
+.volume-slider{
+  -webkit-appearance:none;appearance:none;
+  width:64px;height:2px;
+  background:var(--rose3);
+  border-radius:2px;
+  outline:none;cursor:pointer;
+  transition:height .15s;
+}
+.volume-slider:hover{height:3px;}
+.volume-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--rose);
+  cursor:pointer;
+  box-shadow:0 0 4px rgba(212,132,154,.4);
+  transition:transform .15s;
+}
+.volume-slider::-webkit-slider-thumb:hover{transform:scale(1.2);}
+.volume-slider::-moz-range-thumb{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--rose);border:none;
+  cursor:pointer;
+}
+@keyframes pulse-note{
+  0%,100%{opacity:1;}50%{opacity:.4;}
+}
+.music-player.playing .music-btn{
+  background:var(--rose2);
+}
+
+/* ══════════════════════════════════════
    FILM STRIP
 ══════════════════════════════════════ */
 .strip-top,.strip-bot{
@@ -613,13 +695,13 @@ footer{
 <!-- ══ FILM STRIP ══ -->
 <div class="strip-top">
   <div class="strip-inner">
-    <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА
+    <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА
   </div>
 </div>
 
 <!-- ══ HERO ══ -->
 <section class="hero">
-  <p class="hero-reel">[ 02 · 11 · 2025— сегодня ]</p>
+  <p class="hero-reel">[ 02 · 10 · 2025— сегодня ]</p>
 
   <h1 class="hero-title">
     С Днём<br>
@@ -696,7 +778,7 @@ footer{
   <div class="lcard lft" data-n="003">
     <div class="lcard-accent"></div>
     <p class="lcard-from">Дима</p>
-    <p class="lcard-date">02 · 11 · 2025</p>
+    <p class="lcard-date">02 · 10 · 2025</p>
     <h3 class="lcard-title">Та ночь</h3>
     <p class="lcard-body">
       02.10 стала особенной. Я признался тебе в своих чувствах
@@ -818,7 +900,7 @@ footer{
 <!-- ══ FILM STRIP BOT ══ -->
 <div class="strip-bot">
   <div class="strip-inner" style="animation-direction:reverse;">
-    <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·11</span> ПОЛЬША · НЬЮ-ЙОРК
+    <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК <span>ЛЕСЯ</span> × ДИМА <span>НОРВЕГИЯ</span> ВПЕРЕДИ <span>ЛЕСЯ</span> × ДИМА <span>02·10</span> ПОЛЬША · НЬЮ-ЙОРК
   </div>
 </div>
 
@@ -853,6 +935,20 @@ footer{
 </div>
 
 <div class="love-snow" id="love-snow"></div>
+
+<!-- ══ MUSIC PLAYER ══ -->
+<div class="music-player" id="music-player">
+  <button class="music-btn" id="music-btn" title="Воспроизвести / Пауза">🎵</button>
+  <div class="volume-row">
+    <span class="vol-icon" id="vol-icon">🔈</span>
+    <input class="volume-slider" id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5">
+  </div>
+</div>
+
+<!-- Аудио — замените src на прямую ссылку на ваш MP3 -->
+<audio id="bg-music" loop preload="none">
+  <source src="" type="audio/mpeg">
+</audio>
 
 <script>
 /* ── CANVAS: Анимированные морские волны ── */
@@ -949,7 +1045,7 @@ footer{
 
 /* ── Счётчик дней ── */
 (function(){
-  const start = new Date(2025,11,2);
+  const start = new Date(2025,9,2);
   const total = Math.floor((Date.now()-start)/86400000);
   const el = document.getElementById('cnt');
   let cur = 0;
@@ -1153,7 +1249,56 @@ footer{
   });
 })();
 
-/* 7. Секрет в Title — смена title на нежные слова каждые 5 сек */
+/* 7. Музыкальный плеер */
+(function(){
+  const audio   = document.getElementById('bg-music');
+  const btn     = document.getElementById('music-btn');
+  const player  = document.getElementById('music-player');
+  const slider  = document.getElementById('volume-slider');
+  const volIcon = document.getElementById('vol-icon');
+
+  audio.volume = parseFloat(slider.value);
+
+  function updateVolIcon(v){
+    volIcon.textContent = v === 0 ? '🔇' : v < .45 ? '🔈' : '🔊';
+  }
+  updateVolIcon(audio.volume);
+
+  btn.addEventListener('click', ()=>{
+    if(audio.paused){
+      audio.play().then(()=>{
+        btn.textContent = '⏸';
+        player.classList.add('playing');
+      }).catch(()=>{});
+    } else {
+      audio.pause();
+      btn.textContent = '🎵';
+      player.classList.remove('playing');
+    }
+  });
+
+  slider.addEventListener('input', ()=>{
+    const v = parseFloat(slider.value);
+    audio.volume = v;
+    updateVolIcon(v);
+  });
+
+  let savedVol = audio.volume;
+  volIcon.style.cursor = 'pointer';
+  volIcon.addEventListener('click', ()=>{
+    if(audio.volume > 0){
+      savedVol = audio.volume;
+      audio.volume = 0;
+      slider.value = 0;
+    } else {
+      audio.volume = savedVol || .5;
+      slider.value = audio.volume;
+    }
+    updateVolIcon(audio.volume);
+  });
+})();
+
+/* 8. Секрет в Title — смена title на нежные слова каждые 5 сек */
 (function(){
   const titles = [
     'Леся — 🤍',
