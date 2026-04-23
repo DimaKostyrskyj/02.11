@@ -945,10 +945,7 @@ footer{
   </div>
 </div>
 
-<!-- Аудио — замените src на прямую ссылку на ваш MP3 -->
-<audio id="bg-music" loop preload="none">
-  <source src="" type="audio/mpeg">
-</audio>
+<audio id="bg-music" loop preload="auto"></audio>
 
 <script>
 /* ── CANVAS: Анимированные морские волны ── */
@@ -1256,6 +1253,29 @@ footer{
   const player  = document.getElementById('music-player');
   const slider  = document.getElementById('volume-slider');
   const volIcon = document.getElementById('vol-icon');
+
+  // Список треков из папки music/
+  // Добавьте сюда имена ваших файлов если нужно
+  const tracks = [
+    'music/music1.mp3',
+  ];
+  let trackIdx = 0;
+  let loaded = false;
+
+  // Пробуем найти первый рабочий трек
+  function tryLoad(idx){
+    if(idx >= tracks.length){
+      btn.textContent = '❌';
+      btn.title = 'Файл не найден. Проверьте папку music/';
+      return;
+    }
+    audio.src = tracks[idx];
+    audio.load();
+    audio.oncanplaythrough = ()=>{ loaded = true; };
+    audio.onerror = ()=>{ tryLoad(idx + 1); };
+    trackIdx = idx;
+  }
+  tryLoad(0);
 
   audio.volume = parseFloat(slider.value);
 
